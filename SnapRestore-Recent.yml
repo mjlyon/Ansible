@@ -5,13 +5,18 @@
 
   environment: 
     SC_HOST: "https://{{ inventory_hostname }}"
-    SC_USERNAME: "{{ scale_user }}""
+    SC_USERNAME: "{{ scale_user }}"
     SC_PASSWORD: "{{ scale_pass }}"
 
   tasks:
-    - name: Create from most recent snap named "APAL-DR" from VM "2012vm-clone"
-      scale_computing.hypercore.vm_snapshot:
-        vm_name: 2012vm-clone
-        label: new
-        state: present
-  register: vm_snapshot
+    - name: Create from most recent snap named from VM "2012R2Clone"
+      scale_computing.hypercore.vm_clone:
+        vm_name: 2012R2Clone
+        source_vm_name: 2012R2Clone-DR
+      register: result
+
+    - name: Power on the VM
+      scale_computing.hypercore.vm_params:
+        vm_name: 2012R2Clone-DR
+        power_state: start
+      register: result
