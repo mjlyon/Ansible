@@ -10,14 +10,14 @@
     SC_PASSWORD: "{{ scale_pass }}"
 # To-do: Clone VM, Power On VM
   tasks:
-    - name: Create from most recent snap of VM "2012R2Clone"  # Clone VM from most recent snap
+    - name: Create from most recent snap of VM "2012-clone"  # Clone VM from most recent snap
       scale_computing.hypercore.vm_clone:
-        vm_name: 2012R2Clone
-        source_vm_name: 2012R2Clone-DR
+        vm_name: 2012vm-Node2
+        source_vm_name: 2012vm-clone
       register: result
 
     - name: Power on the VM                                   # Power on VM
       scale_computing.hypercore.vm_params:
-        vm_name: 2012R2Clone-DR
+        vm_name: 2012vm-clone
         power_state: start
       register: result
