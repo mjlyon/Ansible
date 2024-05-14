@@ -1,0 +1,6 @@
+all:
+  hosts:
+    "10.107.175.80":
+  vars:
+    scale_user: "admin"
+    scale_pass: "admin"
