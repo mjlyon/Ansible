@@ -9,7 +9,7 @@
     SC_PASSWORD: "{{ scale_pass }}"
 
   tasks:
-    - name: Create from most recent snap named from VM "2012R2Clone"
+    - name: Create from most recent snap of VM "2012R2Clone"
       scale_computing.hypercore.vm_clone:
         vm_name: 2012R2Clone
         source_vm_name: 2012R2Clone-DR
