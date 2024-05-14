@@ -1,0 +1,17 @@
+- name: AAP Failover Playbook 
+  hosts: all
+  connection: ansible.builtin.local
+  gather_facts: false
+
+  environment: 
+    SC_HOST: "https://{{ inventory_hostname }}"
+    SC_USERNAME: "admin"
+    SC_PASSWORD: "admin"
+
+  tasks:
+    - name: Create from most recent snap named "APAL-DR" from VM "APAL"
+      scale_computing.hypercore.vm_snapshot:
+        vm_name: APAL
+        label: new
+        state: present
+  register: vm_snapshot
