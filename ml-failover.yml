@@ -1,3 +1,4 @@
+# Playbook to do basic VM cloning from snapshots and powering on
 - name: ML Failover Playbook 
   hosts: all
   connection: ansible.builtin.local
@@ -7,14 +8,15 @@
     SC_HOST: "https://{{ inventory_hostname }}"
     SC_USERNAME: "{{ scale_user }}"
     SC_PASSWORD: "{{ scale_pass }}"
-
+# Tasks
   tasks:
+# Clone from most recent snap
     - name: Create from most recent snap of VM "Portainer1"
       scale_computing.hypercore.vm_clone:
         vm_name: Portainer1-DR
         source_vm_name: Portainer1
       register: result
-
+# Power on the VM
     - name: Power on the VM
       scale_computing.hypercore.vm_params:
         vm_name: Portainer1-DR
