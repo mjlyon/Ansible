@@ -13,12 +13,12 @@
 # Clone from most recent snap
     - name: Create from most recent snap of VM "Portainer1"
       scale_computing.hypercore.vm_clone:
-        vm_name: Portainer1-DR
-        source_vm_name: Portainer1
+        vm_name: VDI-Clone1
+        source_vm_name: Win11-Template
       register: result
 # Power on the VM
     - name: Power on the VM
       scale_computing.hypercore.vm_params:
-        vm_name: Portainer1-DR
+        vm_name: VDI-Clone1
         power_state: start
       register: result
