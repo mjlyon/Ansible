@@ -9,7 +9,7 @@
     SC_PASSWORD: "{{ scale_pass }}"
 
   tasks:
-    - name: Create from most recent snap named "Portainer-DR" from VM "Portainer1"
+    - name: Create from most recent snap of VM "Portainer1"
       scale_computing.hypercore.vm_clone:
         vm_name: Portainer1-DR
         source_vm_name: Portainer1
