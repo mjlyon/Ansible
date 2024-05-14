@@ -1,21 +1,22 @@
+# Basic playbook for cloning from most recent snap of APAL (Win2012R2-Clone)
 - name: AAP Failover Playbook 
   hosts: all
   connection: ansible.builtin.local
   gather_facts: false
-
+# pull from inventory
   environment: 
     SC_HOST: "https://{{ inventory_hostname }}"
     SC_USERNAME: "{{ scale_user }}"
     SC_PASSWORD: "{{ scale_pass }}"
-
+# To-do: Clone VM, Power On VM
   tasks:
-    - name: Create from most recent snap of VM "2012R2Clone"
+    - name: Create from most recent snap of VM "2012R2Clone"  # Clone VM from most recent snap
       scale_computing.hypercore.vm_clone:
         vm_name: 2012R2Clone
         source_vm_name: 2012R2Clone-DR
       register: result
 
-    - name: Power on the VM
+    - name: Power on the VM                                   # Power on VM
       scale_computing.hypercore.vm_params:
         vm_name: 2012R2Clone-DR
         power_state: start
