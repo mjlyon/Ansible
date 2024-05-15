@@ -114,7 +114,7 @@
       recurrences:
       - name: 2022-Template Backup                # schedule name
         frequency: "FREQ=DAILY;INTERVAL=1"        # once per day
-        start: "2010-01-01 04:00:00"              # start time
+        start: "2012-01-01 04:00:00"              # start time (choose something in the past to start immediately or the future for a future application
         local_retention: "{{ 7 * 24*60*60 }}"     # retain for 7 days
         remote_retention: "0"
     register: SC-Snapshot
