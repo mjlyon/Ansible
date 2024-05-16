@@ -91,9 +91,9 @@
         password: "{{ scale_pass }}"
       vm_name: "Windows 2022 Template"
       smb:
-        server: smb.server.address.local
-        path: '/path/to/Windows-2022-Template-Directory'
-        file_name: Windows-2022-Template.xml
+        server: smb.server.address.local                   # SMB server address or hostname
+        path: '/path/to/Windows-2022-Template-Directory'   # Path to directory with forward slash /
+        file_name: Windows-2022-Template.xml               # XML file name in the directory
         username: "{{ username }}"
         password: "{{ password }}"
     register: 2022-template
