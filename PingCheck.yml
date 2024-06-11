@@ -4,58 +4,40 @@
   gather_facts: no
   vars:
     websites:
-      - google.com
-      - youtube.com
-      - facebook.com
-      - baidu.com
-      - wikipedia.org
-      - yahooo322o.com
-      - reddit.com
-      - google.co.in
-      - qq.com
-      - taobao.com
-      - tmall.com
-      - twitter.com
-      - sohu.com
-      - live.com
-      - vk.com
-      - instagram.com
-      - sina.com.cn
-      - 360.cn
-      - jd.com
-      - weibo.com
+      - apal.example.com:port
+      - intranet.inventory.db:port
     email_recipient: "your_email@example.com"
-    email_subject: "Website Down Alert"
+    email_subject: "Unable to Reach Port"
     email_body: ""
   tasks:
-    - name: Ping websites
+    - name: Test Websites
       ansible.builtin.uri:
-        url: "http://{{ item }}"
+        url: "https://{{ item }}"
         return_content: no
         status_code: 200
       register: result
       with_items: "{{ websites }}"
       ignore_errors: yes
 
-    - name: Collect down websites and response times
+    - name: Gather failed targets and response times
       set_fact:
         down_websites: "{{ down_websites | default([]) + [{'site': item.item, 'elapsed': item.elapsed}] }}"
       when: item.status != 200
       with_items: "{{ result.results }}"
 
-    - name: Set email body if any website is down
+    - name: Set email body if any service is down
       set_fact:
         email_body: >
-          The following websites are down:
+          The following services are not responding:
           {% for site in down_websites %}
           - {{ site.site }} (Response time: {{ site.elapsed }} ms)
           {% endfor %}
       when: down_websites is defined and down_websites | length > 0
 
-    - name: Send email if any website is down
+    - name: Send email if any service is down
       ansible.builtin.mail:
-        host: "89.117.79.185"
-        port: 1025
+        host: "73.103.52.91"
+        port: 25
         to: "{{ email_recipient }}"
         subject: "{{ email_subject }}"
         body: "{{ email_body }}"
