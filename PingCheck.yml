@@ -1,0 +1,62 @@
+---
+- name: Check if 
+  hosts: localhost
+  gather_facts: no
+  vars:
+    websites:
+      - google.com
+      - youtube.com
+      - facebook.com
+      - baidu.com
+      - wikipedia.org
+      - yahooo322o.com
+      - reddit.com
+      - google.co.in
+      - qq.com
+      - taobao.com
+      - tmall.com
+      - twitter.com
+      - sohu.com
+      - live.com
+      - vk.com
+      - instagram.com
+      - sina.com.cn
+      - 360.cn
+      - jd.com
+      - weibo.com
+    email_recipient: "your_email@example.com"
+    email_subject: "Website Down Alert"
+    email_body: ""
+  tasks:
+    - name: Ping websites
+      ansible.builtin.uri:
+        url: "http://{{ item }}"
+        return_content: no
+        status_code: 200
+      register: result
+      with_items: "{{ websites }}"
+      ignore_errors: yes
+
+    - name: Collect down websites and response times
+      set_fact:
+        down_websites: "{{ down_websites | default([]) + [{'site': item.item, 'elapsed': item.elapsed}] }}"
+      when: item.status != 200
+      with_items: "{{ result.results }}"
+
+    - name: Set email body if any website is down
+      set_fact:
+        email_body: >
+          The following websites are down:
+          {% for site in down_websites %}
+          - {{ site.site }} (Response time: {{ site.elapsed }} ms)
+          {% endfor %}
+      when: down_websites is defined and down_websites | length > 0
+
+    - name: Send email if any website is down
+      ansible.builtin.mail:
+        host: "89.117.79.185"
+        port: 1025
+        to: "{{ email_recipient }}"
+        subject: "{{ email_subject }}"
+        body: "{{ email_body }}"
+      when: down_websites is defined and down_websites | length > 0
